@@ -7,7 +7,7 @@ from botocore.exceptions import ClientError
 
 # Set up Environment Variables (set these in Lambda console under "Configuration" > "Environment Variables")
 # These replace hardcoded values  and allow easy config changes without editing code
-TABLE_NAME = os.environ.get("VISITOR_COUNTER_TABLE", "defaultTableName")
+TABLE_NAME = os.environ.get("crcVisitorCounter", "defaultTableName")
 PARTITION_KEY = os.environ.get("PARTITION_KEY", "id")
 PARTITION_VALUE = os.environ.get("PARTITION_VALUE", "visitorCounter")
 COUNTER_ATTRIBUTE = os.environ.get("COUNTER_ATTRIBUTE", "visitCount")
@@ -16,7 +16,7 @@ COUNTER_ATTRIBUTE = os.environ.get("COUNTER_ATTRIBUTE", "visitCount")
 dynamodb = boto3.resource("dynamodb")
 
 # Connect to specific table using its name
-table = dynamodb.Table("crcVisitorCounter")
+table = dynamodb.Table(TABLE_NAME)
 
 
 def increment_visitor_count():
@@ -24,7 +24,7 @@ def increment_visitor_count():
     Increments the visit counter in the DynamoDB table and returns the updated value.
     """
     try:
-        # 'ADD' expression adds 1 to the current visitCount attrbute
+        # 'ADD' expression adds 1 to the current visitCount attribute
         # Key: which item in the table to update
         response = table.update_item(
             Key={PARTITION_KEY: PARTITION_VALUE}, # Looks for the item with the id="visitorCounter"
@@ -43,7 +43,7 @@ def increment_visitor_count():
 
 def lambda_handler(event, context):
     """
-    Entry point for the Lambda funtion. Triggered by API Gateway when a request is made.
+    Entry point for the Lambda function. Triggered by API Gateway when a request is made.
     This function updates the visitor count and returns the new value.
     """
     try:
@@ -62,9 +62,10 @@ def lambda_handler(event, context):
     
     except Exception as e:
         # If anything goes wrong (network, DynamoDB, etc.), return a 500 Internal Server Error
+        print(f"Error in lambda_handler:{str(e)}")
         return {
             "statusCode": 500,
-            "body": json.dumps({"error": str(e)})
+            "body": json.dumps({"error": "Internal Server Error"})
         }
     
 
