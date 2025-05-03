@@ -1,13 +1,12 @@
 # Import required libraries
-
 import boto3
 import json
 import os
 from botocore.exceptions import ClientError
+from decimal import Decimal
 
-# Set up Environment Variables (set these in Lambda console under "Configuration" > "Environment Variables")
-# These replace hardcoded values  and allow easy config changes without editing code
-TABLE_NAME = os.environ.get("crcVisitorCounter", "defaultTableName")
+# Environment variables
+TABLE_NAME = os.environ.get("TABLE_NAME", "defaultTableName")
 PARTITION_KEY = os.environ.get("PARTITION_KEY", "id")
 PARTITION_VALUE = os.environ.get("PARTITION_VALUE", "visitorCounter")
 COUNTER_ATTRIBUTE = os.environ.get("COUNTER_ATTRIBUTE", "visitCount")
@@ -17,7 +16,6 @@ dynamodb = boto3.resource("dynamodb")
 
 # Connect to specific table using its name
 table = dynamodb.Table(TABLE_NAME)
-
 
 def increment_visitor_count():
     """
@@ -34,7 +32,13 @@ def increment_visitor_count():
         )
 
         # Pull the updated count from the response
-        return response["Attributes"][COUNTER_ATTRIBUTE]
+        updated_count = response["Attributes"][COUNTER_ATTRIBUTE]
+
+        # Convert Decimal to int for JSON serialization
+        if isinstance(updated_count, Decimal):
+            updated_count = int(updated_count)
+
+        return updated_count
     
     except ClientError as e:
         # If the DynamoDB request fails, print and raise the error to be handled by the main function
