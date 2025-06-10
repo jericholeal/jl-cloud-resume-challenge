@@ -24,8 +24,7 @@ jobs:
 
       - name: Deploy files to S3
         run: |
-          cd jl-portfolio/crc-project/crc-resume-website
-          aws s3 sync . s3://${{ secrets.S3_BUCKET }} --delete
+          aws s3 sync jl-portfolio/crc-project/crc-resume-website s3://${{ secrets.S3_BUCKET }} --delete
 
       - name: Create CloudFront invalidation
         run: |
