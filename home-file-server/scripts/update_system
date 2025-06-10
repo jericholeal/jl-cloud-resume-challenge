@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Script to update and upgrade the system, clean up unnecessary packages, and log the process
+# Stored in /usr/local/sbin/update_system.sh
+# Place in /etc/cron.daily or run manually
+
+# Log file
+LOG_FILE="/var/log/update_system.log"
+
+# Timestamp function
+timestamp() {
+    date +"%Y-%m-%d %H-%M-%S"
+}
+
+# Start
+{
+    echo "-------------------------------------------------------------------"
+    # Update and upgrade the system
+    echo "$(timestamp) - Starting system update and upgrade..."
+    apt-get update && apt-get upgrade -y
+    UPDATE_STATUS=$?
+
+    # Clean up unnecessary packages
+    echo
+    echo "$(timestamp) - Cleaning up unnecessary packages..."
+    apt-get autoremove -y
+
+    # Clean up package cache
+    echo
+    echo "$(timestamp) - Cleaning up package cache..."
+    apt-get clean
+
+    # End
+    echo
+    echo "$(timestamp) - System update and upgrade completed."
+    echo "-------------------------------------------------------------------"
+} >> $LOG_FILE 2>&1
+
+if [ $UPDATE_STATUS -eq 0 ]; then
+    logger -t "update_system" "System update and upgrade completed successfully."
+else
+    logger -t "update_system" "System update and upgrade failed with status code $UPDATE_STATUS."
+fi
+
+
