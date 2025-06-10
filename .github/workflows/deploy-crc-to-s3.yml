@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-    - 'crc-project/crc-resume-website/**'
+    - 'crc-project/frontend/**'
 
 jobs:
   deploy:
@@ -24,7 +24,7 @@ jobs:
 
       - name: Deploy files to S3
         run: |
-          cd crc-project/crc-resume-website
+          cd crc-project/frontend
           aws s3 sync . s3://${{ secrets.S3_BUCKET }} --delete
 
       - name: Create CloudFront invalidation
