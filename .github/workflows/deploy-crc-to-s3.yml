@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-#    paths:
-#    - 'jl-portfolio/crc-project/crc-resume-website/**'
+    paths:
+    - 'crc-project/crc-resume-website/**'
 
 jobs:
   deploy:
@@ -24,7 +24,8 @@ jobs:
 
       - name: Deploy files to S3
         run: |
-          aws s3 sync jl-portfolio/crc-project/crc-resume-website s3://${{ secrets.S3_BUCKET }} --delete
+          cd crc-project/crc-resume-website
+          aws s3 sync . s3://${{ secrets.S3_BUCKET }} --delete
 
       - name: Create CloudFront invalidation
         run: |
