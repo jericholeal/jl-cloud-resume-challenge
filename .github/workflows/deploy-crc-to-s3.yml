@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-    - 'jl-portfolio/crc-project/crc-resume-website/**'
+#    paths:
+#    - 'jl-portfolio/crc-project/crc-resume-website/**'
 
 jobs:
   deploy:
