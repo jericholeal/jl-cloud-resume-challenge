@@ -1,3 +1,5 @@
+// Visitor counter fetch
+
 // API endpoint to fetch visitor count
 const apiEndpoint = "https://2dqhper5il.execute-api.us-east-1.amazonaws.com/increment";
 
