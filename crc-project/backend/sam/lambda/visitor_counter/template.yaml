@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Visitor counter Lambda function
+
+Resources:
+  VisitorCountFunction: # Lambda function to increment visitor count and return the count to the frontend
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: python3.9
+      Handler: visitor_counter.lambda_handler # Handler function in the python file
+      CodeUri: ./ # Directory containing Lambda function code
+
+      Environment:
+        Variables:
+          # EVs for the Lambda function used to interact with DynamoDB
+          TABLE_NAME: !Ref VisitorCountTable # name of DynamoDB table
+          PARTITION_KEY: "visitor_id" # Primary key attribute name
+          PARTITION_VALUE: "counter" # Partition key value for the counter
+          COUNTER_ATTRIBUTE: "visit_count" # Attribute that stores the visit count
+      
+      Policies:
+        # IAM policies for Lambda function
+        - DynamoDBCrudPolicy:
+            TableName: !Ref VisitorCountTable # IAM permission to access the DynamoDB table
+      
+      Events:
+        # API Gateway event to trigger the Lambda function
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /visitor-counter
+            Method: post
