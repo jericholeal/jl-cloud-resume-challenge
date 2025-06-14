@@ -43,3 +43,13 @@ Resources:
             Path: /increment
             Method: POST
             RestApiId: !Ref ApiGatewayApiId
+      
+Outputs:
+  VisitorCountFunctionName:
+    Description: Name of the Lambda function for visitor counting
+    Value: !Ref VisitorCountFunction
+    Export:
+      Name: VisitorCountFunctionName # Exported name for cross-stack references
+
+
+            
