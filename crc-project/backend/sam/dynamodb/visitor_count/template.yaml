@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Visitor count DynamoDB table
+
+Resources:
+  VisitorCountTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: crcVisitorCounter
+      
+      AttributeDefinitions:
+        - AttributeName: visitor_id
+          AttributeType: S
+
+      KeySchema:
+        - AttributeName: visitor_id
+          KeyType: HASH
+      
+      BillingMode: PAY_PER_REQUEST # On-demand billing mode for DynamoDB
+
+      Tags:
+        - Key: Name
+          Value: VisitorCountTable # Tag for identification
+
+Outputs:
+  VisitorCountTableName:
+    Description: Name of the DynamoDB table for visitor count
+    Value: !Ref VisitorCountTable # Outputs the name of the DynamoDB table
+    Export:
+      Name: VisitorCountTableName # Exported name for cross-stack references
