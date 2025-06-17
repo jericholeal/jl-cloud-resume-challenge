@@ -1,0 +1,70 @@
+# IAM Role for Lambda execution
+resource "aws_iam_role" "crc_visitor_counter_exec_role" {    
+    name = "crc_visitor_counter-role-w5vyatiy"
+
+    # AWS assume policy
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [{
+            Effect = "Allow",
+            Principal = {
+                Service = "lambda.amazonaws.com"
+            },
+            Action = "sts:AssumeRole"
+        }]
+    })
+}
+
+# IAM Policy for Lambda execution role
+resource "aws_iam_role_policy" "crc_visitor_counter_exec_policy" {
+    name = "crc_visitor_counter_exec_policy"
+    role = aws_iam_role.crc_visitor_counter_exec_role.id
+
+    # Policy for Lambda execution role
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Effect = "Allow",
+                Action = [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                Resource = "arn:aws:logs:us-east-1:022925159332:*"
+            },
+            {
+                Effect = "Allow",
+                Action = [
+                    "dynamodb:PutItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:UpdateItem"
+                ],
+                Resource = "arn:aws:dynamodb:us-east-1:022925159332:table/crcVisitorCounter"
+            }
+        ]
+    })
+}
+
+# Lambda function resource
+resource "aws_lambda_function" "crc_visitor_counter" {
+    function_name    = "crc_visitor_counter"
+    filename         = "${path.module}/crc_visitor_counter.zip"
+    source_code_hash = filebase64sha256("${path.module}/crc_visitor_counter.zip")
+    handler          = "crc_visitor_counter.lambda_handler"
+    runtime          = "python3.9"
+    role             = aws_iam_role.crc_visitor_counter_exec_role.arn
+
+    environment {
+        variables = {
+            TABLE_NAME = "crcVisitorCounter"
+            PARTITION_KEY = "id"
+            PARTITION_VALUE = "visitorCounter"
+            COUNTER_ATTRIBUTE = "visitCount"
+        }
+    }
+
+    tags = {
+        Project = "jericho-crc-website"
+    }
+}
