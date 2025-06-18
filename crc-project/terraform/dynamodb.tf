@@ -1,9 +1,9 @@
 resource "aws_dynamodb_table" "visitor_count" {
   name         = "crcVisitorCounter"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "visitor_id"
+  hash_key     = "id"
   attribute {
-    name = "visitor_id"
+    name = "id"
     type = "S"
   }
   tags = {
