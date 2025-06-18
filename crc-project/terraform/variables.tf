@@ -1,3 +1,8 @@
+variable "aws_account_id" {
+  description = "AWS account ID for resource policies"
+  type = string
+  default = "022925159332"
+}
 variable "aws_region" {
   description = "AWS region to deploy resources in"
   type        = string
@@ -22,8 +27,14 @@ variable "acm_certificate_arn" {
   default = "arn:aws:acm:us-east-1:022925159332:certificate/4e11a0e7-3819-499c-abb3-9c39e1010ff3"
 }
 
-variable "aws_account_id" {
-  description = "AWS account ID for resource policies"
-  type = string
-  default = "022925159332"
+variable "dynamodb_table_arn" {
+	description = "ARN of the DynamoDB table for visitor counter"
+	type = string
+	default = "arn:aws:dynamodb:us-east-1:022925159332:table/crcVisitorCounter"
+}
+
+variable "lambda_execution_logs_arn" {
+	description = "ARN of the CloudWatch Logs resources for Lambda execution"
+	type        = string
+	default     = "arn:aws:logs:us-east-1:022925159332:*"
 }
