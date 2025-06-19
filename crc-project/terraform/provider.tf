@@ -14,5 +14,6 @@ terraform {
 # AWS provider configuration
 
 provider "aws" {
-  region = var.aws_region
+  region = "us-east-1"
+  alias = "us_east_1"
 }
