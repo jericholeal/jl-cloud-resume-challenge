@@ -15,7 +15,7 @@ resource "aws_api_gateway_resource" "increment_path" {
 resource "aws_api_gateway_method" "get_method" {
   rest_api_id = aws_api_gateway_rest_api.lambda_function_trigger_api.id
   resource_id = aws_api_gateway_resource.increment_path.id
-  http_method = "GET"
+  http_method = "POST"
   authorization = "NONE"
 }
 
@@ -35,7 +35,7 @@ resource "aws_lambda_permission" "lambda_api_gateway_permission" {
     action = "lambda:InvokeFunction"
     function_name = aws_lambda_function.crc_visitor_counter.function_name
     principal = "apigateway.amazonaws.com"
-    source_arn = "${aws_api_gateway_rest_api.lambda_function_trigger_api.execution_arn}/*/GET/increment"
+    source_arn = "${aws_api_gateway_rest_api.lambda_function_trigger_api.execution_arn}/*/POST/increment"
 }
 
 # Deploy API (required for API Gateway to be accessible)
