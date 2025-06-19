@@ -7,7 +7,7 @@ const apiEndpoint = "https://2dqhper5il.execute-api.us-east-1.amazonaws.com/incr
 async function fetchVisitorCount() {
     try {
       // Send POST request to Lambda function via API Gateway endpoint
-        const response = await fetch(apiEndpoint);
+        const response = await fetch(apiEndpoint, { method: "POST" });
 
         // Check if response is ok (status code 200)
         if (!response.ok) {
