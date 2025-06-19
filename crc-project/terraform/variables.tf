@@ -3,12 +3,6 @@ variable "aws_account_id" {
   type = string
   default = "022925159332"
 }
-variable "aws_region" {
-  description = "AWS region to deploy resources in"
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "cf_domain_name" {
   description = "Domain name associated with CloudFront distribution and Route53"
   type = string
@@ -37,4 +31,10 @@ variable "lambda_execution_logs_arn" {
 	description = "ARN of the CloudWatch Logs resources for Lambda execution"
 	type        = string
 	default     = "arn:aws:logs:us-east-1:022925159332:*"
+}
+
+variable "acm_certificate_validation_arn" {
+	description = "ARN of the ACM certificate validation resource"
+	type 			= string
+	default = "arn:aws:acm:us-east-1:022925159332:certificate/4e11a0e7-3819-499c-abb3-9c39e1010ff3"
 }
