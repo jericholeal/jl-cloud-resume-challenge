@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-	region = "us-east-1"
+	region = var.region
   account_id = data.aws_caller_identity.current.account_id
   cert_id = "4e11a0e7-3819-499c-abb3-9c39e1010ff3"
   
@@ -10,7 +10,7 @@ locals {
 	lambda_execution_logs_arn = "arn:aws:logs:${local.region}:${local.account_id}:*"
 	acm_certificate_validation_arn = local.acm_certificate_arn
 	
-	hosted_zone_id = "Z055437911O5KKG4KNBKR"
+	hosted_zone_id = var.hosted_zone_id
 	cd_domain_name = "dkur9puokbtno.cloudfront.net"
 	dynamodb_table_name = "crcVisitorCounter"
 }
