@@ -91,3 +91,42 @@ resource "aws_s3_bucket_policy" "jericho_crc_site_cloudfront_log_policy" {
   	}]
   })
 }
+
+resource "aws_s3_bucket" "jericho_crc_site_lambda" {
+  bucket = "jericho-crc-site-lambda"
+  lifecycle {
+    prevent_destroy = true
+  }
+  tags = {
+    Project = "jericho_crc_site"
+    Purpose = "Lambda function code storage"
+  }
+}
+
+resource "aws_s3_bucket_acl" "jericho_crc_site_lambda_acl" {
+  bucket = aws_s3_bucket.jericho_crc_site_lambda.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "jericho_crc_site_lambda_versioning" {
+  bucket = aws_s3_bucket.jericho_crc_site_lambda.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_policy" "jericho_crc_site_lambda_policy" {
+  bucket = aws_s3_bucket.jericho_crc_site_lambda.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Principal = {
+        AWS = aws_iam_role.jericho_crc_site_visitor_lambda_exec.arn
+      },
+      Action = "s3:GetObject",
+      Resource = "arn:aws:s3:::jericho-crc-site-lambda/*"
+    }]
+  })
+}
