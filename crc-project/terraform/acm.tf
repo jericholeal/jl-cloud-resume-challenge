@@ -9,7 +9,7 @@ resource "aws_acm_certificate" "jericho_crc_site_cert" {
 }
 
 # Create DNS validation record for ACM certificate in Route 53
-resource "aws_route53_record" "jericho_crc_site_jericho_crc_site_cert_validation" {
+resource "aws_route53_record" "jericho_crc_site_cert_validation" {
   for_each = {
     for dvo in aws_acm_certificate.jericho_crc_site_cert.domain_validation_options : dvo.domain_name => {
 			name = dvo.resource_record_name
