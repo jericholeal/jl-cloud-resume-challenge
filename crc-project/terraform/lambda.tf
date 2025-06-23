@@ -48,19 +48,19 @@ resource "aws_iam_role_policy" "jericho_crc_site_visitor_lambda_policy" {
 
 # Lambda function resource
 resource "aws_lambda_function" "jericho_crc_site_visitor_counter" {
-  function_name    = "crc_visitor_counter"
-  filename         = "${path.module}/crc_visitor_counter.zip"
-  source_code_hash = filebase64sha256("${path.module}/crc_visitor_counter.zip")
-  handler          = "crc_visitor_counter.lambda_handler"
+  function_name    = var.lambda_function_name
+  s3_bucket        = var.lambda_s3_bucket
+  s3_key           = var.lambda_s3_key
+  handler          = "${var.lambda_function_name}.lambda_handler"
   runtime          = "python3.9"
   role             = aws_iam_role.jericho_crc_site_visitor_lambda_exec.arn
 
   environment {
     variables = {
-      TABLE_NAME = "crcVisitorCounter"
-      PARTITION_KEY = "id"
-      PARTITION_VALUE = "visitorCounter"
-      COUNTER_ATTRIBUTE = "visitCount"
+      TABLE_NAME = var.dynamodb_table_name
+      PARTITION_KEY = var.dynamodb_table_partition_key
+      PARTITION_VALUE = var.dynamodb_table_partition_value
+      COUNTER_ATTRIBUTE = var.dynamodb_counter_attribute
       }
   }
 
