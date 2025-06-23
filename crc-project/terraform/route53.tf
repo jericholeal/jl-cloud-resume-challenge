@@ -18,7 +18,7 @@ resource "aws_route53_record" "jericho_crc_site_cdn_alias" {
 }
 
 # www subdomain alias record redirecting to root domain
-resource "aws_route53_record" "www_alias" {
+resource "aws_route53_record" "jericho_crc_site_www_alias" {
     zone_id = data.aws_route53_zone.jericho_crc_site_zone.zone_id
     name = "www.jericho-crc-site.xyz"
     type = "CNAME"
