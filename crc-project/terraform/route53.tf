@@ -1,6 +1,6 @@
 # Hosted zone
 data "aws_route53_zone" "jericho_crc_site_zone" {
-    zone_id = var.hosted_zone_id
+    zone_id = local.hosted_zone_id
     private_zone = false
 }
 

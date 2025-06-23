@@ -8,9 +8,9 @@ resource "aws_cloudfront_origin_access_control" "oac" {
 }
 
 # CloudFront distribution for S3 static website
-resource "aws_cloudfront_distribution" "jericho-crc-site-cf-distribution" {
+resource "aws_cloudfront_distribution" "jericho_crc_site" {
   origin {
-    domain_name = aws_s3_bucket.jericho-crc-site.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.jericho_crc_site.bucket_regional_domain_name
     origin_id = "s3-jericho-crc-site-origin"
     origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   }
@@ -26,7 +26,7 @@ resource "aws_cloudfront_distribution" "jericho-crc-site-cf-distribution" {
 
   # TLS certificate from ACM in us-east-1  
   viewer_certificate {
-    acm_certificate_arn = var.acm_certificate_arn
+    acm_certificate_arn = local.acm_certificate_arn
     ssl_support_method = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -54,12 +54,12 @@ resource "aws_cloudfront_distribution" "jericho-crc-site-cf-distribution" {
   }
 
   logging_config {
-    bucket = aws_s3_bucket.jericho-crc-site-cloudfront-logs.bucket_domain_name
+    bucket = aws_s3_bucket.jericho_crc_site_logs.bucket_domain_name
     include_cookies = false
     prefix = "cloudfront-logs/"
   }
 
   tags = {
-    Project = "jericho-crc-site"
+    Project = "jericho_crc_site"
   }
 }
