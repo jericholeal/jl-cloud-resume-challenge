@@ -11,7 +11,7 @@ resource "aws_route53_record" "jericho_crc_site_cdn_alias" {
   type    = "A"
 
   alias {
-    name                   = aws_cloudfront_distribution.jericho_crc_site_cdn_alias.domain_name
+    name                   = aws_cloudfront_distribution.jericho_crc_site.domain_name
     zone_id                = "Z2FDTNDATAQYW2"
     evaluate_target_health = false
   }
