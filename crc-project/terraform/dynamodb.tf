@@ -7,6 +7,6 @@ resource "aws_dynamodb_table" "jericho_crc_site_visitor_count" {
     type = "S"
   }
   tags = {
-	  Project     = "jericho_crc_site"
-	}
+    Project = "jericho_crc_site"
+  }
 }

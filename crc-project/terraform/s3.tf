@@ -8,19 +8,19 @@ resource "aws_s3_bucket_policy" "jericho_crc_site_policy" {
 
   policy = jsonencode({
     "Version" = "2012-10-17",
-    "Id" = "PolicyForCloudFrontPrivateContent",
+    "Id"      = "PolicyForCloudFrontPrivateContent",
     "Statement" = [
       {
         "Sid" = "AllowCloudFrontServicePrincipal",
-        "Effect": "Allow",
-        "Principal": {
-        "Service": "cloudfront.amazonaws.com"
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudfront.amazonaws.com"
         },
-        "Action": "s3:GetObject",
-        "Resource": "arn:aws:s3:::jericho-crc-site/*",
-        "Condition": {
-          "StringEquals": {
-            "AWS:SourceArn": "arn:aws:cloudfront::${local.account_id}:distribution/${local.cloudfront_distribution_id}"
+        "Action" : "s3:GetObject",
+        "Resource" : "arn:aws:s3:::jericho-crc-site/*",
+        "Condition" : {
+          "StringEquals" : {
+            "AWS:SourceArn" : "arn:aws:cloudfront::${local.account_id}:distribution/${local.cloudfront_distribution_id}"
           }
         }
       }
@@ -28,12 +28,12 @@ resource "aws_s3_bucket_policy" "jericho_crc_site_policy" {
   })
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "jericho_crc_site_encryption" {
-	bucket = aws_s3_bucket.jericho_crc_site.id
-	rule {
-		apply_server_side_encryption_by_default {
-			sse_algorithm = "AES256"
-		}
-	}
+  bucket = aws_s3_bucket.jericho_crc_site.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
 resource "aws_s3_bucket_acl" "jericho_crc_site_acl" {
@@ -42,10 +42,10 @@ resource "aws_s3_bucket_acl" "jericho_crc_site_acl" {
 }
 
 resource "aws_s3_bucket_versioning" "jericho_crc_site_versioning" {
-	bucket = aws_s3_bucket.jericho_crc_site.id
-	versioning_configuration {
-		status = "Enabled"
-	}
+  bucket = aws_s3_bucket.jericho_crc_site.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 # jericho_crc_site_logs S3 bucket configuration
@@ -65,10 +65,10 @@ resource "aws_s3_bucket_acl" "jericho_crc_site_logs_acl" {
 }
 
 resource "aws_s3_bucket_versioning" "jericho_crc_site_logs_versioning" {
-	bucket = aws_s3_bucket.jericho_crc_site_logs.id
-	versioning_configuration {
-		status = "Enabled"
-	}
+  bucket = aws_s3_bucket.jericho_crc_site_logs.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_policy" "jericho_crc_site_cloudfront_log_policy" {
@@ -81,14 +81,14 @@ resource "aws_s3_bucket_policy" "jericho_crc_site_cloudfront_log_policy" {
       Principal = {
         Service = "delivery.logs.amazonaws.com"
       },
-      Action = "s3:PutObject",
+      Action   = "s3:PutObject",
       Resource = "arn:aws:s3:::jericho_crc_site_logs/*",
       Condition = {
-        StringEquals =  {
+        StringEquals = {
           "AWS:SourceAccount" = local.account_id
-        }			
+        }
       }
-  	}]
+    }]
   })
 }
 
@@ -125,7 +125,7 @@ resource "aws_s3_bucket_policy" "jericho_crc_site_lambda_policy" {
       Principal = {
         AWS = aws_iam_role.jericho_crc_site_visitor_lambda_exec.arn
       },
-      Action = "s3:GetObject",
+      Action   = "s3:GetObject",
       Resource = "arn:aws:s3:::jericho-crc-site-lambda/*"
     }]
   })
