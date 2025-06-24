@@ -26,7 +26,7 @@ resource "aws_api_gateway_integration" "increment_get_lambda" {
   http_method             = aws_api_gateway_method.increment_get.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.crc_visitor_counter.invoke_arn
+  uri                     = aws_lambda_function.jericho_crc_site_visitor_counter.invoke_arn
 }
 
 # Create POST method on path
@@ -44,7 +44,7 @@ resource "aws_api_gateway_integration" "increment_post_lamba" {
   http_method             = aws_api_gateway_method.increment_post.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.crc_visitor_counter.invoke_arn
+  uri                     = aws_lambda_function.jericho_crc_site_visitor_counter.invoke_arn
 }
 
 # Create OPTIONS method for CORS support
@@ -103,7 +103,7 @@ resource "aws_api_gateway_integration_response" "options_200" {
 resource "aws_lambda_permission" "increment_post_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.crc_visitor_counter.function_name
+  function_name = aws_lambda_function.jericho_crc_site_visitor_counter.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.jericho_crc_site_api.execution_arn}/*/POST/increment"
 }
@@ -111,7 +111,7 @@ resource "aws_lambda_permission" "increment_post_permission" {
 resource "aws_lambda_permission" "increment_get_permission" {
   statement_id  = "AllowAPIGatewayInvokeGet"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.crc_visitor_counter.function_name
+  function_name = aws_lambda_function.jericho_crc_site_visitor_counter.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.jericho_crc_site_api.execution_arn}/*/GET/increment"
 }
