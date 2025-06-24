@@ -3,6 +3,11 @@ variable "region" {
   type        = string
 }
 
+variable "aws_profile" {
+  description = "AWS CLI profile to use for authentication"
+  type        = string
+}
+
 variable "hosted_zone_id" {
   description = "Route53 Hosted Zone ID"
   type        = string

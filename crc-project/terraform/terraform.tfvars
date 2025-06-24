@@ -1,4 +1,5 @@
 region                         = "us-east-1"
+aws_profile                    = "crc-user"
 hosted_zone_id                 = "Z055437911O5KKG4KNBKR"
 lambda_s3_bucket               = "jericho-crc-site-lambda"
 lambda_s3_key                  = "crc_visitor_counter.zip"
