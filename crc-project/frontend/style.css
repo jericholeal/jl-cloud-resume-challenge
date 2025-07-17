@@ -11,6 +11,18 @@ h1, h2, h3, h4 {
     font-weight: 900;
 }
 
+/* Link colour & hover */
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: greenyellow;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius:10px;
+}
+
 /* container to center, layout control */
 .container {
     max-width: 1200px;
