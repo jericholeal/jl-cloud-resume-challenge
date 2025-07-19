@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Node.js (if you add npm packages)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+*.backup
+*.log
+
+# AWS credentials (never commit these)
+*.pem
+*.key
+
+# OS/Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# S3/Lambda deployment packages
+*.zip
+
+# Misc
+*.swp
+*.swo
