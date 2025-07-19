@@ -1,6 +1,6 @@
 # Cloud Resume Challenge - Jericho's Cloud Resume Website
 
-Welcome to my crack at the Cloud Resume Challenge [Cloud Resume Challenge](https://cloudresumechallenge.dev/)!
+Welcome to my crack at the [Cloud Resume Challenge](https://cloudresumechallenge.dev/)!
 
 ## Live Site
 [https://jericho-crc-site.xyz](https://jericho-crc-site.xyz)
